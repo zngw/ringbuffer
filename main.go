@@ -152,10 +152,8 @@ func (r *RingBuffer) grow() {
 }
 
 // IsEmpty 判断RingBuffer是否为空
-func (r *RingBuffer) IsEmpty() (empty bool) {
-	// readCell和writeCell指向同一个cell，并且该cell的读写指针也指向同一个位置，并且cell状态为非满
-	empty = r.readCell == r.writeCell && r.readCell.r == r.readCell.w && !r.readCell.fullFlag
-	return
+func (r *RingBuffer) IsEmpty() bool {
+	return r.Len() == 0
 }
 
 // Capacity RingBuffer容量
@@ -171,6 +169,10 @@ func (r *RingBuffer) Len() (count int) {
 
 // Reset 重置为仅指向两个cell的ring
 func (r *RingBuffer) Reset() {
+	// 没有数据切cellCount只有两个时，无需重置
+	if r.count == 0 && r.cellCount == 2 {
+		return
+	}
 
 	lastCell := r.readCell.next
 

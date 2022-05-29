@@ -6,3 +6,9 @@
 * 扩容操作即在写指针的后面插入一个新建的空闲cell
 * 缩容操作修改链表指向即可，让buf恢复原样，仅保持两个cell即可，其他cell由于不再被引用，会被GC自动回收
 * 在链表写入(Write)和读取(Read)时用原子操作修改链表有效数据长度count
+
+## 安装使用
+
+```go
+$ go get -u github.com/zngw/ringbuffer
+```
